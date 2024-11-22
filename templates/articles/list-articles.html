@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">All Articles</h1>
+
+    <div class="row">
+        {% for article in articles %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if article.article_image %}
+                <img src="{{ article.article_image }}" class="card-img-top" alt="{{ article.title }}">
+                {% else %}
+                <img src="{% static 'images/default_article.jpg' %}" class="card-img-top" alt="{{ article.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.description|truncatewords:20 }}</p>
+                    <a href="{% url 'article-detail' article.id %}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No articles found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

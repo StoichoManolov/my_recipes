@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="article-detail-container">
+    <header class="article-header">
+        <h1>{{ article.title }}</h1>
+        <p class="article-meta">
+            <strong>Published on:</strong> {{ article.created_at|date:"F d, Y" }}
+        </p>
+    </header>
+
+    <section class="article-content">
+        <img 
+                {% if article.article_image %}
+            src="{{ article.article_image.url }}" 
+            {% else %}
+               src="{% static 'images/default_article.jpg' %}" 
+            {% endif %}
+            alt="Image for {{ article.title }}" 
+            class="article-image"
+        >
+        <p>{{ article.content|linebreaks }}</p>
+    </section>
+
+
+    <footer class="article-footer">
+        <a href="{% url 'articles-list' %}" class="btn btn-secondary">Back to Articles</a>
+    </footer>
+</div>
+{% endblock %}

@@ -11,9 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,10 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     "My_Recipes.accounts.apps.AccountsConfig",
     "My_Recipes.recipes.apps.RecipesConfig",
     "My_Recipes.comments.apps.CommentsConfig",
-    "My_Recipes.reviews.apps.ReviewsConfig"
+    "My_Recipes.reviews.apps.ReviewsConfig",
+    "My_Recipes.recipe_ingredients.apps.RecipeIngredientsConfig",
+    "My_Recipes.ingredients.apps.IngredientsConfig",
+    "My_Recipes.common.apps.CommonConfig",
+    "My_Recipes.articles.apps.ArticlesConfig",
 ]
 
 MIDDLEWARE = [
@@ -139,6 +143,11 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.RecipesUser'
+LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGOUT_REDIRECT_URL = reverse_lazy('home')
+LOGIN_URL = '/account/login/'
 
-MEDIA_URL = '/media/'
+
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

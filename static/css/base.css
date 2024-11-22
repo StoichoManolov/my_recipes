@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+header {
+    padding: 15px 0;
+    text-align: center;;
+}
+
+header nav {
+    display: flex;
+    justify-content: right;
+    gap: 20px;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 70vh;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 3rem;
+}
+
+.hero p {
+    margin: 10px 0;
+    font-size: 1.5rem;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+}
+
+#navbarNav ul li a {
+    color: black;
+}
+

@@ -22,3 +22,5 @@ class NotApprovedContent:
             return redirect('home-page')
 
         return data
+
+

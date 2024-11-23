@@ -19,7 +19,8 @@
 
                     <!-- Change Password Button -->
                     <div class="mt-4">
-                        <a href="#" class="btn btn-outline-secondary">Change Password</a>
+                        <a href="{% url 'password-change' request.user.pk %}" class="btn btn-outline-secondary">Change Password</a>
+                        <a href="{% url 'email-change' request.user.pk %}" class="btn btn-outline-secondary">Change Email Address</a>
                     </div>
                 </div>
             </div>

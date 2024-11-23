@@ -24,7 +24,6 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('recipe-list')
 
     def form_valid(self, form):
-
         # Handle the dynamic ingredients
         ingredient_names = self.request.POST.getlist('ingredient_name[]')
         ingredient_quantities = self.request.POST.getlist('ingredient_quantity[]')
@@ -33,7 +32,7 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
         for idx, (name, quantity, measurement) in enumerate(
                 zip(ingredient_names, ingredient_quantities, ingredient_measurements)):
             if not name and not quantity and not measurement:
-                form.add_error(None, f'Make sure to fill Ingredients, Quantity and Measurement!')
+                form.add_error(None, f'Make sure to fill Ingredients, Quantity, and Measurement!')
                 return self.form_invalid(form)
             elif not name:
                 form.add_error(None, f'Make sure to fill ingredients!')
@@ -43,25 +42,27 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
                 return self.form_invalid(form)
             elif not measurement:
                 form.add_error(None, f'Make sure to fill the measurement!')
-                return self.form_invalid(form)  # Return to the form with error
+                return self.form_invalid(form)
 
         # Save the recipe first (without committing to the database yet)
         recipe = form.save(commit=False)
         recipe.created_by = self.request.user  # Set the current user as the creator
         recipe.save()
 
-        # Create or get the ingredient object
-        ingredient, created = Ingredients.objects.get_or_create(name=name)
+        # Iterate through the ingredients and save them in the RecipeIngredient model
+        for name, quantity, measurement in zip(ingredient_names, ingredient_quantities, ingredient_measurements):
+            # Create or get the ingredient object
+            ingredient, created = Ingredients.objects.get_or_create(name=name)
 
-        # Create the RecipeIngredient to associate the ingredient with the recipe
-        RecipesIngredient.objects.create(
-            recipe=recipe,
-            ingredient=ingredient,
-            quantity=quantity,
-            measurement=measurement
-        )
+            # Create the RecipeIngredient to associate the ingredient with the recipe
+            RecipesIngredient.objects.create(
+                recipe=recipe,
+                ingredient=ingredient,
+                quantity=quantity,
+                measurement=measurement
+            )
 
-    # If validation passes, redirect to the success URL
+        # If validation passes, redirect to the success URL
         return redirect(self.success_url)
 
 
@@ -92,6 +93,3 @@ class RecipeListView(ListView):
     model = Recipe
     context_object_name = 'recipes'
 
-class NotApproveRecipes(NotApprovedContent, ListView):
-
-    model = Recipe

@@ -8,7 +8,7 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-
+                
                 <!-- Dynamic Ingredients Section -->
                 <h3 class="mt-4">Ingredients</h3>
                 <div id="ingredients-container">
@@ -37,13 +37,27 @@
                             </div>
                         </div>
                     {% endfor %}
+                 <div class="row g-2 ingredient-ite mb-3">
+                    <div class="col-md-6">
+                        <input type="text" name="ingredient_name[]" class="form-control" placeholder="Ingredient Name">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="ingredient_quantity[]" class="form-control" placeholder="Quantity">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="ingredient_measurement[]" class="form-control" placeholder="Measurement (e.g., grams)">
+                    </div>
                 </div>
-
+                </div>
+                
+                
+            
                 <button type="button" id="add-ingredient" class="btn btn-outline-secondary mt-3">+ Add Ingredient</button>
-
+                            
+            
                 <!-- Submit -->
                 <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-success">Create Recipe</button>
+                    <button type="submit" class="btn btn-success">Create Recipe </button>
                     <a href="{% url 'recipe-list' %}" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
@@ -51,11 +65,14 @@
     </div>
 </div>
 
+    
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const ingredientsContainer = document.getElementById('ingredients-container');
         const addIngredientButton = document.getElementById('add-ingredient');
 
+        
+        
         // Add new ingredient fields
         addIngredientButton.addEventListener('click', function () {
             const newIngredient = `

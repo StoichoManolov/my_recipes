@@ -9,7 +9,10 @@
                         <!-- Recipe Title -->
                         <h1 class="card-title">{{ recipe.title }}</h1>
 
-                        <p class="text-muted"><strong>Created by:</strong> {{ recipe.created_by }}</p>
+                        <p class="text-muted">
+                            <strong>Created by:</strong>
+                            <a href="{% url 'detail-account' recipe.created_by.id %}">{{ recipe.created_by }}</a>
+                        </p>
                         <p class="text-muted"><strong>Created at:</strong> {{ recipe.created_at }}</p>
 
                         <!-- Recipe Image -->
@@ -26,7 +29,7 @@
 
                         <!-- Preparation Time -->
                         <p><strong>Prep:</strong> {{ recipe.prep_time }} minutes</p>
-                        <p><strong>Cook:</strong> {{ recipe.cook_time}} minutes</p>
+                        <p><strong>Cook:</strong> {{ recipe.cook_time }} minutes</p>
                         <p><strong>Time Required:</strong> {{ recipe.total_time }} minutes</p>
 
                         <!-- Instructions -->

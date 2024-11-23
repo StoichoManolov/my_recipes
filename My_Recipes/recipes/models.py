@@ -37,7 +37,6 @@ class Recipe(models.Model):
         auto_now_add=True,
     )
 
-    approved = models.BooleanField(default=False)
 
     def total_time(self):
         return self.prep_time + self.cook_time

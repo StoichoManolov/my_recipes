@@ -33,7 +33,7 @@
             </ul>
             <!-- Move Create Account and Login to the right -->
             <ul class="navbar-nav ms-auto">
-                {% if user.is_authenticated %}
+                {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'detail-account' pk=request.user.pk %}">My Profile</a>
                     </li>

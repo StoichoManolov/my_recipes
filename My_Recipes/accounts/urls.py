@@ -1,7 +1,8 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
 
-from My_Recipes.accounts.views import CreateAccountView, DetailAccountView, EditAccountView, DeleteAccountView
+from My_Recipes.accounts.views import CreateAccountView, DetailAccountView, EditAccountView, DeleteAccountView, \
+    PasswordChange, EmailChangeView
 
 urlpatterns = [
     path('create/', CreateAccountView.as_view(), name='create-account'),
@@ -11,5 +12,8 @@ urlpatterns = [
         path('detail/', DetailAccountView.as_view(), name='detail-account'),
         path('edit/', EditAccountView.as_view(), name='edit-account'),
         path('delete/', DeleteAccountView.as_view(), name='delete-account'),
+
     ])),
+    path('password_change/<int:pk>/', PasswordChange.as_view(), name='password-change'),
+    path('email_change/<int:pk>/', EmailChangeView.as_view(), name='email-change'),
 ]

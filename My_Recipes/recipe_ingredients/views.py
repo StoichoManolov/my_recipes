@@ -56,7 +56,6 @@ class DeleteIngredientView(CheckForRestrictionIngredients, DeleteView):
     template_name = 'ingredients/delete-ingredient.html'
 
     def get_object(self):
-        # Get the ingredient based on recipe_id and ingredient_id
         ingredient_id = self.kwargs['ingredient_id']
         recipe_id = self.kwargs['recipe_id']
         ingredient = RecipesIngredient.objects.filter(id=ingredient_id, recipe_id=recipe_id).first()
@@ -66,27 +65,26 @@ class DeleteIngredientView(CheckForRestrictionIngredients, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recipe'] = get_object_or_404(Recipe, pk=self.kwargs['recipe_id'])
+        ingredient = self.get_object()  # Get the ingredient object
+        recipe = ingredient.recipe  # Get the recipe associated with this ingredient
+        # Add a flag to the context that indicates if the recipe has only one ingredient left
+        context['is_last_ingredient'] = recipe.recipe_ingredients.count() == 1
+        context['recipe'] = recipe  # Pass the recipe object so its ID can be used in the URL
         return context
 
     def delete(self, request, *args, **kwargs):
-        # Get the ingredient and associated recipe
         ingredient = self.get_object()
         recipe = ingredient.recipe
 
-        # Check if this is the last ingredient in the recipe
         if recipe.recipe_ingredients.count() == 1:
-            # Prevent deletion and show an error message
             messages.error(request, "You cannot delete the last ingredient in a recipe.")
             return redirect(reverse_lazy('manage-ingredients', kwargs={'recipe_id': recipe.id}))
 
-        # Proceed with the deletion if it's not the last ingredient
         return super().delete(request, *args, **kwargs)
 
     def get_success_url(self):
         recipe_id = self.kwargs['recipe_id']
         return reverse_lazy('manage-ingredients', kwargs={'recipe_id': recipe_id})
-
 
 class EditIngredientView(CheckForRestrictionIngredients, UpdateView):
     model = RecipesIngredient

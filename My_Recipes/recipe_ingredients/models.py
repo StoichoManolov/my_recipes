@@ -22,7 +22,6 @@ class RecipesIngredient(models.Model):
 
     quantity = models.CharField(
         max_length=50,
-        help_text="e.g., 1 cup, 2 tbsp",
     )
 
     measurement = models.CharField(

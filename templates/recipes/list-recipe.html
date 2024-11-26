@@ -25,7 +25,7 @@
                         <a href="{% url 'recipe-detail' recipe.id %}" class="text-decoration-none">{{ recipe.title }}</a>
                     </h5>
                     <p class="card-text text-muted">{{ recipe.description|truncatechars:100 }}</p>
-                    <p class="card-text"><strong>Prep Time:</strong> {{ recipe.preparation_time }} mins</p>
+                    <p class="card-text"><strong>Prep Time:</strong> {{ recipe.total_time }} mins</p>
                 </div>
             </div>
         </div>

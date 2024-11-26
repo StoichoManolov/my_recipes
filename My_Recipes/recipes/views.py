@@ -1,7 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
-from django.db import transaction
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
@@ -10,7 +7,7 @@ from django.views.generic import CreateView, DetailView, DeleteView, UpdateView,
 from My_Recipes.ingredients.models import Ingredients
 from My_Recipes.recipe_ingredients.models import RecipesIngredient
 from My_Recipes.recipes.forms import RecipeForms
-from My_Recipes.recipes.mixins import CheckForRestrictionRecipes, NotApprovedContent
+from My_Recipes.recipes.mixins import CheckForRestrictionRecipes
 from My_Recipes.recipes.models import Recipe
 
 

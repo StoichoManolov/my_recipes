@@ -10,6 +10,7 @@ urlpatterns = [
     path('account/', include('My_Recipes.accounts.urls')),
     path('article/', include('My_Recipes.articles.urls')),
     path('recipe/', include('My_Recipes.recipes.urls')),
+    path('ingredients/', include('My_Recipes.recipe_ingredients.urls')),
 ]
 
 if settings.DEBUG:

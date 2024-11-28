@@ -31,7 +31,6 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -150,4 +149,3 @@ LOGIN_URL = '/account/login/'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-

@@ -1,68 +1,102 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Recipe Title -->
-                        <h1 class="card-title">{{ recipe.title }}</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Recipe Title -->
+                    <h1 class="card-title">{{ recipe.title }}</h1>
 
-                        <p class="text-muted">
-                            <strong>Created by:</strong>
-                            <!-- Check if the recipe has a creator (created_by) -->
-                            {% if recipe.created_by %}
-                                <a href="{% url 'detail-account' recipe.created_by.id %}">{{ recipe.created_by }}</a>
-                            {% else %}
-                                <span>Unknown</span>
-                            {% endif %}
-                        </p>
-                        <p class="text-muted"><strong>Created at:</strong> {{ recipe.created_at }}</p>
-
-                        <!-- Recipe Image -->
-                        {% if recipe.image %}
-                            <div class="text-center mb-4">
-                                <img src="{{ recipe.image.url }}" class="img-fluid" alt="{{ recipe.title }}">
-                            </div>
+                    <p class="text-muted">
+                        <strong>Created by:</strong>
+                        {% if recipe.created_by %}
+                            <a href="{% url 'detail-account' recipe.created_by.id %}">{{ recipe.created_by }}</a>
                         {% else %}
-                            <p class="text-muted">No image available for this recipe.</p>
+                            <span>Unknown</span>
                         {% endif %}
+                    </p>
+                    <p class="text-muted"><strong>Created at:</strong> {{ recipe.created_at }}</p>
 
-                        <!-- Recipe Description -->
-                        <p class="text-muted"><strong>Description:</strong> {{ recipe.description }}</p>
+                    <!-- Recipe Image -->
+                    {% if recipe.image %}
+                        <div class="text-center mb-4">
+                            <img src="{{ recipe.image.url }}" class="img-fluid" alt="{{ recipe.title }}">
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No image available for this recipe.</p>
+                    {% endif %}
 
-                        <!-- Preparation Time -->
-                        <p><strong>Prep:</strong> {{ recipe.prep_time|default:"Not specified" }} minutes</p>
-                        <p><strong>Cook:</strong> {{ recipe.cook_time|default:"Not specified" }} minutes</p>
-                        <p><strong>Total Time:</strong> {{ recipe.total_time|default:"Not specified" }} minutes</p>
+                    <!-- Recipe Description -->
+                    <p class="text-muted"><strong>Description:</strong> {{ recipe.description }}</p>
 
-                        <!-- Instructions -->
-                        <h5>Instructions:</h5>
-                        <p>{{ recipe.instructions }}</p>
+                    <!-- Preparation Time -->
+                    <p><strong>Prep:</strong> {{ recipe.prep_time|default:"Not specified" }} minutes</p>
+                    <p><strong>Cook:</strong> {{ recipe.cook_time|default:"Not specified" }} minutes</p>
+                    <p><strong>Total Time:</strong> {{ recipe.total_time|default:"Not specified" }} minutes</p>
 
-                        <!-- Ingredients -->
-                        <h5>Ingredients:</h5>
-                        <ul>
-                            {% for ingredient in recipe.recipe_ingredients.all %}
-                                <li>{{ ingredient.quantity }} {{ ingredient.measurement }}
-                                    of {{ ingredient.ingredient.name }}</li>
+                    <!-- Instructions -->
+                    <h5>Instructions:</h5>
+                    <p>{{ recipe.instructions }}</p>
+
+                    <!-- Ingredients -->
+                    <h5>Ingredients:</h5>
+                    <ul>
+                        {% for ingredient in recipe.recipe_ingredients.all %}
+                            <li>{{ ingredient.quantity }} {{ ingredient.measurement }} of {{ ingredient.ingredient.name }}</li>
+                        {% empty %}
+                            <li>No ingredients available.</li>
+                        {% endfor %}
+                    </ul>
+
+                    <!-- Action Buttons for Recipe -->
+                    {% if request.user == recipe.created_by or request.user.is_superuser or request.user.is_staff %}
+                        <div class="mt-4">
+                            <a href="{% url 'recipe-edit' recipe.id %}" class="btn btn-outline-primary">Edit Recipe</a>
+                            <a href="{% url 'manage-ingredients' recipe.id %}" class="btn btn-outline-secondary">Manage Ingredients</a>
+                            <a href="{% url 'recipe-delete' recipe.id %}" class="btn btn-outline-danger">Delete Recipe</a>
+                        </div>
+                    {% endif %}
+
+                    <!-- Comments Section -->
+                    <div id="comments-section" class="mt-4">
+                        <h5>Comments:</h5>
+                        <ul id="comment-list">
+                            {% for comment in recipe.comments.all %}
+                                <li class="comment-item mb-3" style="position:relative; box-shadow: none;">
+                                    <strong>{{ comment.user.username }}</strong>: {{ comment.content }}
+                                    <br><small>{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
+
+                                    <!-- Edit Button for the comment -->
+                                    {% if comment.user == request.user or request.user.is_superuser %}
+                                        <a href="{% url 'comment-update' comment.id %}" class="btn btn-outline-warning btn-sm ml-2">Edit</a>
+                                    {% endif %}
+
+                                    <!-- Delete button for the comment -->
+                                    {% if comment.user == request.user or request.user.is_superuser %}
+                                        <form id="delete-button" action="{% url 'comment-delete' comment.id %}" method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger comment-delete-btn">X</button>
+                                        </form>
+                                    {% endif %}
+                                </li>
                             {% empty %}
-                                <li>No ingredients available.</li>
+                                <p>No comments yet. Be the first to comment!</p>
                             {% endfor %}
                         </ul>
-
-                        <!-- Action Buttons -->
-                        {% if request.user == recipe.created_by or request.user.is_superuser or request.user.is_staff %}
-                            <div class="mt-4">
-                                <a href="{% url 'recipe-edit' recipe.id %}" class="btn btn-outline-primary">Edit Recipe</a>
-                                <a href="{% url 'manage-ingredients' recipe.id %}" class="btn btn-outline-secondary">Manage Ingredients</a>
-                                <a href="{% url 'recipe-delete' recipe.id %}" class="btn btn-outline-danger">Delete Recipe</a>
-                            </div>
-                        {% endif %}
                     </div>
+
+                    <!-- Comment Form -->
+                    <form method="post" action="{% url 'comment-create' recipe.id %}">
+                        {% csrf_token %}
+                        <textarea id="id_content" name="content" rows="3" class="form-control" placeholder="Leave a comment..." required></textarea>
+                        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
 {% endblock %}

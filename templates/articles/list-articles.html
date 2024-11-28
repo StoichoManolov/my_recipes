@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <h1 class="mb-4">All Articles</h1>
 
-    {% if request.user.is_superuser %}
+    {% if request.user.is_superuser or request.user.is_staff %}
         <a href="{% url 'create-article' %}" class="btn btn-primary">Add New Article</a>
         {% endif %}
 
@@ -14,7 +14,7 @@
         <div class="col-md-4 mb-4">
             <div class="card">
                 {% if article.article_image %}
-                <img src="{{ article.article_image }}" class="card-img-top" alt="{{ article.title }}">
+                <img src="{{ article.article_image.url }}" class="card-img-top" alt="{{ article.title }}">
                 {% else %}
                 <img src="{% static 'images/default_article.jpg' %}" class="card-img-top" alt="{{ article.title }}">
                 {% endif %}

@@ -11,6 +11,7 @@ urlpatterns = [
     path('article/', include('My_Recipes.articles.urls')),
     path('recipe/', include('My_Recipes.recipes.urls')),
     path('ingredients/', include('My_Recipes.recipe_ingredients.urls')),
+    path('comment/', include('My_Recipes.comments.urls')),
 ]
 
 if settings.DEBUG:

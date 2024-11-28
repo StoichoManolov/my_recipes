@@ -10,7 +10,7 @@ class Article(models.Model):
     )
 
     article_image = models.ImageField(
-        upload_to='article/pictures',
+        upload_to='photos/article_pictures',
         blank=True,
         null=True,
     )

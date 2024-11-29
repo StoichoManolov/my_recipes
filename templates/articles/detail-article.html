@@ -10,8 +10,12 @@
                         <!-- Article Title -->
                         <h1 class="card-title">{{ article.title }}</h1>
                         <p class="text-muted">
-                            <strong>Published on:</strong> {{ article.created_at|date:"F d, Y" }}
-                        </p>
+                        <strong>Created by:</strong>
+                        {% if article.created_by %}
+                            <a href="{% url 'detail-account' article.created_by.id %}">{{ article.created_by }}</a>
+                        {% endif %}
+                    </p>
+                    <p class="text-muted"><strong>Created at:</strong> {{ article.created_at }}</p>
 
                         <!-- Article Image -->
                         <div class="text-center mb-4">

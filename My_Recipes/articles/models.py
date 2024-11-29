@@ -5,6 +5,12 @@ from My_Recipes.accounts.models import RecipesUser
 
 class Article(models.Model):
 
+    created_by = models.ForeignKey(
+        RecipesUser,
+        on_delete=models.CASCADE,
+        related_name='articles'
+    )
+
     category = models.CharField(
         max_length=50,
     )
@@ -29,9 +35,8 @@ class Article(models.Model):
         auto_now_add=True,
     )
 
-    updated_at = models.DateTimeField(
-        auto_now=True,
-    )
-
     def __str__(self):
         return self.title
+
+    def __str__(self):
+        return self.username

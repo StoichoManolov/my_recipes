@@ -16,7 +16,7 @@ class CreateArticleView(CheckUserArticlePermission, CreateView):
     success_url = reverse_lazy('articles-list')
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.created_by = self.request.user
         return super().form_valid(form)
 
 

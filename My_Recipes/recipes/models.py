@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 
 from My_Recipes.accounts.models import RecipesUser
 
@@ -37,10 +38,14 @@ class Recipe(models.Model):
         auto_now_add=True,
     )
 
-
     def total_time(self):
         return self.prep_time + self.cook_time
 
     def __str__(self):
         return self.title
 
+    def get_average_rating(self):
+        return self.recipe_reviews.aggregate(avg_rating=Avg('rating'))['avg_rating']
+
+    def reviews_count(self):
+        return self.recipe_reviews.count()

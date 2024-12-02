@@ -1,14 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 
 from django.views.generic import CreateView, DetailView, DeleteView, UpdateView, ListView
 
+from My_Recipes.accounts.models import RecipesUser
 from My_Recipes.ingredients.models import Ingredients
 from My_Recipes.recipe_ingredients.models import RecipesIngredient
 from My_Recipes.recipes.forms import RecipeForms
 from My_Recipes.recipes.mixins import CheckForRestrictionRecipes
 from My_Recipes.recipes.models import Recipe
+from My_Recipes.reviews.models import RecipeReview
 
 
 # Create your views here.
@@ -64,9 +66,25 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
 
 
 class RecipeDetailView(DetailView):
-
     template_name = 'recipes/detail-recipe.html'
     model = Recipe
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipe = self.object
+        avg_rating = recipe.get_average_rating() if recipe.get_average_rating() is not None else 'Not rated yet!'
+        reviews_count = recipe.reviews_count()
+
+        if self.request.user.is_authenticated:
+            user = RecipeReview.objects.filter(recipe=recipe, user=self.request.user).first()
+
+            context['user_review'] = user
+
+        context['recipe'] = recipe
+        context['avg_rating'] = avg_rating
+        context['reviews_count'] = reviews_count
+
+        return context
 
 
 class DeleteRecipeView(CheckForRestrictionRecipes, LoginRequiredMixin, DeleteView):

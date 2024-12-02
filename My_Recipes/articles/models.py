@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 
 from My_Recipes.accounts.models import RecipesUser
 
@@ -11,7 +12,7 @@ class Article(models.Model):
         related_name='articles'
     )
 
-    category = models.CharField(
+    title = models.CharField(
         max_length=50,
     )
 
@@ -21,7 +22,7 @@ class Article(models.Model):
         null=True,
     )
 
-    title = models.CharField(
+    category = models.CharField(
         max_length=50,
     )
 
@@ -38,5 +39,8 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-    def __str__(self):
-        return self.username
+    def get_average_rating(self):
+        return self.article_reviews.aggregate(avg_rating=Avg('rating'))['avg_rating']
+
+    def reviews_count(self):
+        return self.article_reviews.count()

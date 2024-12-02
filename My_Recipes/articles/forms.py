@@ -7,4 +7,4 @@ class ArticleForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        exclude = ['created_at', 'updated_at', 'created_by',]
+        exclude = ['created_at', 'created_by',]

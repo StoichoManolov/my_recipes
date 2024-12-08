@@ -87,12 +87,15 @@ WSGI_APPLICATION = 'My_Recipes.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': config('DATABASE_URL', default='db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config('DB_NAME'),
+        "USER": config('DB_USER'),
+        "PASSWORD": config('DB_PASSWORD'),
+        "HOST": config('DB_HOST'),
+        "PORT": config('DB_PORT'),
     }
 }
-
 AUTHENTICATION_BACKENDS = (
     'My_Recipes.accounts.authentication.EmailOrUsernameBackend',
     'django.contrib.auth.backends.ModelBackend',

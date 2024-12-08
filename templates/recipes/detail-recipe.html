@@ -1,4 +1,4 @@
-gi{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -87,7 +87,7 @@ gi{% extends 'base.html' %}
                             <h4 style="color:cornflowerblue">Comments:</h4>
                             <ul id="comment-list">
                                 {% for comment in recipe.comments.all %}
-                                    <li class="comment-item mb-3" style="position:relative; box-shadow: none;">
+                                    <li class="comment-item" style="position:relative; box-shadow: none;">
                                         <a href="{% url 'detail-account' pk=comment.user.pk %}"><strong>{{ comment.user.username }}</strong></a>: {{ comment.content }}
 
                                         <br><small>{{ comment.created_at|date:"F j, Y, g:i a" }}</small>

@@ -1,0 +1,46 @@
+ /* Ensure no box-shadow is applied to the comment item */
+    .comment-item {
+        position: relative;
+        box-shadow: none; /* Remove any shadow */
+    }
+
+    /* Button styling for the delete button */
+    .comment-delete-btn {
+        padding: 0; /* Remove padding */
+        font-size: 1rem; /* Smaller font size */
+        width: 20px; /* Smaller width */
+        height: 20px; /* Smaller height */
+        border-radius: 50%; /* Circular shape */
+        text-align: center; /* Center the X */
+        line-height: 1.5; /* Center the X vertically */
+        min-width: 20px; /* Ensure the button doesn't shrink smaller */
+        box-shadow: none; /* Remove any shadow */
+    }
+
+    /* Position the X button at the far right of the comment box */
+    .comment-delete-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 0.9rem; /* Smaller X */
+    }
+
+    .comment-delete-btn:hover {
+        background-color: #c82333; /* Darker red on hover */
+    }
+
+    .btn.btn-danger.comment-delete-btn {
+        box-shadow: none;
+    }
+
+    #logout-button{
+        box-shadow: none !important;
+        background-color: transparent;
+        padding: 0px;
+    }
+
+    #nav-bar-buttons{
+        font-size: medium;
+        font-weight: 700;
+        color: black;
+    }

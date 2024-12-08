@@ -82,7 +82,7 @@
                                     <!-- Delete button for the comment -->
                                     {% if comment.user == request.user or request.user.is_superuser or request.user.is_staff %}
                                         <form id="delete-button" action="{% url 'comment-article-delete' comment.id %}"
-                                              method="POST" style="display:inline;">
+                                              method="POST">
                                             {% csrf_token %}
                                             <button type="submit" class="btn btn-danger comment-delete-btn">X
                                             </button>

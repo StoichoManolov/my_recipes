@@ -85,3 +85,52 @@
 .active, .dot:hover {
     background-color: #717171;
 }
+
+#button-frontpage {
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.btn-custom {
+    background-color: #f1ebe4; /* Soft off-white tone */
+    color: #5a3a28; /* Dark brown text for contrast */
+    border: 1px solid #e5d5c5; /* Subtle beige border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px 20px;
+    font-family: 'Georgia', serif; /* Matches the vintage aesthetic */
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #f1ebe4; /* Slightly darker off-white on hover */
+    transform: translateY(-2px); /* Subtle hover lift effect */
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+}
+
+.btn-custom-article {
+    background-color: #d1a15f; /* Muted gold for vintage look */
+    color: #fff; /* White text for contrast */
+    border: 1px solid #d1a15f; /* Gold border */
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-family: 'Georgia', serif; /* Elegant, vintage-style font */
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-custom-article:hover {
+    background-color: #d1a15f; /* Lighter gold on hover */
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#text-frontpage {
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

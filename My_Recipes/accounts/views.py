@@ -28,15 +28,17 @@ class EditAccountView(LoginRequiredMixin, CheckForRestriction, UpdateView):
     form_class = AccountsBaseForm
     template_name = 'accounts/edit-account.html'
 
-    # This redirects to the user detail view after saving
-    success_url = reverse_lazy('detail-account')
-
-    def get_object(self, queryset=None):
-        # Get the profile of the currently logged-in user
-        return self.request.user.profile
-
     def get_success_url(self):
         return reverse_lazy('detail-account', kwargs={'pk': self.object.user.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user_id = self.object.user.pk
+
+        context['user_id'] = user_id
+
+        return context
 
 
 class DeleteAccountView(LoginRequiredMixin, CheckForRestriction,  DeleteView):
@@ -54,7 +56,7 @@ class PasswordChange(CheckForRestriction, PasswordChangeView):
         return reverse_lazy('detail-account', kwargs={'pk': self.request.user.pk})
 
     def form_valid(self, form):
-        messages.success(self.request, 'Password change successful!')
+        messages.success(self.request, 'Password changed successfully!')
         return super().form_valid(form)
 
 
@@ -63,7 +65,6 @@ class EmailChangeView(LoginRequiredMixin, CheckForRestriction, FormView):
     form_class = EmailChangeForm
 
     def form_valid(self, form):
-        # Update the user's email
         new_email = form.cleaned_data['email']
         self.request.user.email = new_email
         self.request.user.save()

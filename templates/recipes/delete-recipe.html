@@ -6,13 +6,19 @@
         <div class="col-md-8 mx-auto">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title">Delete Recipe</h1>
-                    <p class="text-muted">Are you sure you want to delete the recipe <strong>{{ recipe.title }}</strong>?</p>
+                    <h1 class="card-title text-center">Delete Recipe</h1>
+                    <p class="text-center text-danger-emphasis">Are you sure you want to delete the recipe: <strong>{{ recipe.title }}</strong>?</p>
 
-                    <form method="POST">
+                    <form id="delete-button" method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                        <a href="{% url 'recipe-detail' recipe.pk %}" class="btn btn-secondary">Cancel</a>
+                        <div class="d-flex justify-content-between mt-3">
+                        <button type="submit"
+                                class="btn btn-outline-danger" style="width:150px">
+                            Delete</button>
+                        <a href="{% url 'recipe-detail' recipe.pk %}"
+                           class="btn btn-outline-secondary" style="width: 150px">
+                            Cancel</a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -20,3 +26,5 @@
     </div>
 </div>
 {% endblock %}
+
+<div class="d-flex justify-content-between mt-3">

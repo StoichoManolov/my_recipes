@@ -5,7 +5,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from My_Recipes.accounts.managers import RecipeManager
-from My_Recipes.accounts.validators import is_it_alpha
+from My_Recipes.accounts.validators import EmptySpacesOrAlphaValidator
+from My_Recipes.validators import IsItAlpha
 
 
 # Create your models here.
@@ -15,13 +16,18 @@ class RecipesUser(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(
         unique=True,
-        max_length=20,
-        validators=[MinLengthValidator(3)],
+        max_length=10,
+        validators=[
+            MinLengthValidator(3),
+            EmptySpacesOrAlphaValidator('Username should contain only letters with no spaces!')
+        ],
+        error_messages={'unique': 'Username is already taken!', }
     )
 
     email = models.EmailField(
         unique=True,
-        max_length=30,
+        max_length=40,
+        error_messages={'unique': 'Email is already taken!', }
     )
 
     created_at = models.DateField(
@@ -62,24 +68,25 @@ class Profile(models.Model):
     )
 
     first_name = models.CharField(
-        max_length=30,
+        max_length=15,
         blank=True,
         null=True,
         validators=[MinLengthValidator(2),
-                    is_it_alpha],
+                    EmptySpacesOrAlphaValidator('First name should be only letters with no spaces!')],
     )
 
     last_name = models.CharField(
-        max_length=30,
+        max_length=15,
         blank=True,
         null=True,
         validators=[MinLengthValidator(2),
-                    is_it_alpha],
+                    EmptySpacesOrAlphaValidator('Last name should be only letters with no spaces!')],
     )
 
     description = models.TextField(
         blank=True,
         null=True,
+        verbose_name='About me:'
     )
 
     profile_picture = models.ImageField(

@@ -32,3 +32,15 @@
     .btn.btn-danger.comment-delete-btn {
         box-shadow: none;
     }
+
+    #logout-button{
+        box-shadow: none !important;
+        background-color: transparent;
+        padding: 0px;
+    }
+
+    #nav-bar-buttons{
+        font-size: medium;
+        font-weight: 700;
+        color: black;
+    }

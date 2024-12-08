@@ -1,9 +1,10 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from My_Recipes.accounts.models import Profile, RecipesUser
 
-
+UserModel = get_user_model()
 class AccountsBaseForm(forms.ModelForm):
 
     class Meta:
@@ -55,3 +56,19 @@ class EmailChangeForm(forms.Form):
         # Passing the user to the form to validate the password and check if email exists
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+
+
+class UserCreationForm(forms.ModelForm):
+    """Form for creating new users."""
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+
+    class Meta:
+        model = UserModel
+        fields = ('username', 'email', 'password')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])  # Hash the password
+        if commit:
+            user.save()
+        return user

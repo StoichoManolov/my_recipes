@@ -8,7 +8,11 @@ class CommentForm(forms.ModelForm):
         model = RecipeComment
         fields = ['content']
         widgets = {
-            'content': forms.Textarea(attrs={'placeholder': 'Leave a comment...'}),
+            'content': forms.Textarea(attrs={
+                'placeholder': 'Enter your comment...',
+                'class': 'disabled-textarea',
+                'rows': 8,
+            }),
         }
 
 
@@ -17,5 +21,9 @@ class ArticleCommentForm(forms.ModelForm):
         model = ArticleComment
         fields = ['content']
         widgets = {
-            'content': forms.Textarea(attrs={'placeholder': 'Leave a comment...'}),
+            'content': forms.Textarea(attrs={
+                'placeholder': 'Enter your comment...',
+                'class': 'disabled-textarea',
+                'rows': 8,
+            }),
         }

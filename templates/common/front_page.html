@@ -9,15 +9,26 @@
 
             <!-- Full-width images with number and caption text -->
             <div class="mySlides">
-                <div class="numbertext">1 / 2</div>
-                <img src="{% static 'images/articles.jpg' %}" style="width:100%;height: 100%">
-                <div class="text">Caption Text</div>
+                <div class="numbertext" id="text-frontpage">1 / 2</div>
+                <img src="{% static 'images/recipes.jpg' %}" style="width:100%;height: 100%">
+                <div class="text" id="button-frontpage">
+                    <a href="{% url 'recipe-list' %}"
+                       class="btn-custom">
+                        Find here  ->
+                    </a>
+                </div>
+
             </div>
 
             <div class="mySlides">
-                <div class="numbertext">2 / 2</div>
-                <img src="{% static 'images/recipes.jpg' %}" style="width:100%;height:100%">
-                <div class="text">Caption Two</div>
+                <div class="numbertext" id="text-frontpage">2 / 2</div>
+                <img src="{% static 'images/articles-front.webp' %}" style="width:100%;height:100%">
+                <div class="text" id="button-frontpage">
+                    <a href="{% url 'articles-list' %}"
+                       class="btn-custom-article">
+                        Find here  ->
+                    </a>
+                </div>
             </div>
 
             <!-- Next and previous buttons -->
@@ -26,12 +37,36 @@
         </div>
         <br>
 
+
         <!-- The dots/circles -->
         <div style="text-align:center">
             <span class="dot" onclick="currentSlide(1)"></span>
             <span class="dot" onclick="currentSlide(2)"></span>
         </div>
     </section>
+
+     <div class="container-fluid fact bg-dark my-5 py-5">
+        <div class="container">
+            <div class="row g-3">
+
+                <div class="col-md-6 col-lg-4 text-center wow fadeIn " data-wow-delay="0.3s">
+                    <img  src="{% static 'images/download.svg' %}" style="height: 50px; margin-bottom: 10px">
+                    <h2 class="text-white mb-2" data-toggle="counter-up">{{ recipes }}</h2>
+                    <p class="text-white mb-0">Recipes</p>
+                </div>
+                <div class="col-md-6 col-lg-4 text-center wow fadeIn" data-wow-delay="0.5s">
+                    <img src="{% static 'images/list-article.svg' %}" style="height: 50px; margin-bottom: 10px">
+                    <h2 class="text-white mb-2" data-toggle="counter-up">{{ articles }}</h2>
+                    <p class="text-white mb-0">Articles</p>
+                </div>
+                <div class="col-md-6 col-lg-4 text-center wow fadeIn" data-wow-delay="0.7s">
+                    <i class="bi bi-people" style="color:white;font-size: 40px"></i>
+                    <h2 class="text-white mb-2" data-toggle="counter-up">{{ registered_users }}</h2>
+                    <p class="text-white mb-0">Registered Users</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="{% static 'js/slideshow.js' %}"></script>
 {% endblock %}

@@ -8,9 +8,18 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Recipe Title -->
-                        <h1 class="text-center">{{ recipe.title }}</h1>
+                        <h1 class="text-center">{{ recipe.title }} {% if request.user == recipe.created_by or request.user.is_superuser or request.user.is_staff %}
+                            <div class="mt-4">
+                                <a href="{% url 'recipe-edit' recipe.id %}" class="btn btn-outline-primary">Edit
+                                    Recipe</a>
+                                <a href="{% url 'manage-ingredients' recipe.id %}" class="btn btn-outline-secondary">Manage
+                                    Ingredients</a>
+                                <a href="{% url 'recipe-delete' recipe.id %}" class="btn btn-outline-danger">Delete
+                                    Recipe</a>
+                            </div>
+                        {% endif %}</h1>
                         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                        <div> Rating : {{ avg_rating }} ({{ reviews_count }})</div>
+                        <div style="font-weight: 700; font-family: work-sans, sans-serif">  Rating : {{ avg_rating|floatformat:2 }} ({{ reviews_count }})</div>
                         {% if user.is_authenticated %}
                             {% if user_review.rating %}
                                 <div class="rating rating2" id="stars-rating" style="pointer-events: none">
@@ -50,19 +59,14 @@
                         {% endif %}
 
                         <!-- Recipe Description -->
-                        <p class="text-muted"><strong>Description:</strong> {{ recipe.description }}</p>
+                        <h3 style="color:cornflowerblue">Description:</h3> {{ recipe.description }}
 
                         <!-- Preparation Time -->
-                        <p><strong>Prep:</strong> {{ recipe.prep_time|default:"Not specified" }} minutes</p>
-                        <p><strong>Cook:</strong> {{ recipe.cook_time|default:"Not specified" }} minutes</p>
-                        <p><strong>Total Time:</strong> {{ recipe.total_time|default:"Not specified" }} minutes</p>
-
-                        <!-- Instructions -->
-                        <h5>Instructions:</h5>
-                        <p>{{ recipe.instructions }}</p>
-
-                        <!-- Ingredients -->
-                        <h5>Ingredients:</h5>
+                        <div style="margin-top:20px"><strong>Prep:</strong> {{ recipe.prep_time|default:"Not specified" }} minutes</div>
+                        <div style="margin-bottom: 5px;margin-top:5px"><strong>Cook:</strong> {{ recipe.cook_time|default:"Not specified" }} minutes</div>
+                        <div style="margin-bottom: 20px"><strong>Total Time:</strong> {{ recipe.total_time|default:"Not specified" }} minutes</div>
+                    
+                    <h3 style="color:cornflowerblue">Ingredients:</h3>
                         <ul>
                             {% for ingredient in recipe.recipe_ingredients.all %}
                                 <li>{{ ingredient.quantity }} {{ ingredient.measurement }}
@@ -72,25 +76,20 @@
                             {% endfor %}
                         </ul>
 
-                        <!-- Action Buttons for Recipe -->
-                        {% if request.user == recipe.created_by or request.user.is_superuser or request.user.is_staff %}
-                            <div class="mt-4">
-                                <a href="{% url 'recipe-edit' recipe.id %}" class="btn btn-outline-primary">Edit
-                                    Recipe</a>
-                                <a href="{% url 'manage-ingredients' recipe.id %}" class="btn btn-outline-secondary">Manage
-                                    Ingredients</a>
-                                <a href="{% url 'recipe-delete' recipe.id %}" class="btn btn-outline-danger">Delete
-                                    Recipe</a>
-                            </div>
-                        {% endif %}
+                        <!-- Instructions -->
+                        <section class="article-content" id="article-content-text">
+                            <h3 style="color:cornflowerblue">Instructions:</h3>
+                        <p>{{ recipe.instructions|linebreaks }}</p>
+                        </section>
 
                         <!-- Comments Section -->
                         <div id="comments-section" class="mt-4">
-                            <h5>Comments:</h5>
+                            <h4 style="color:cornflowerblue">Comments:</h4>
                             <ul id="comment-list">
                                 {% for comment in recipe.comments.all %}
                                     <li class="comment-item mb-3" style="position:relative; box-shadow: none;">
-                                        <strong>{{ comment.user.username }}</strong>: {{ comment.content }}
+                                        <a href="{% url 'detail-account' pk=comment.user.pk %}"><strong>{{ comment.user.username }}</strong></a>: {{ comment.content }}
+
                                         <br><small>{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
 
                                         <!-- Edit Button for the comment -->

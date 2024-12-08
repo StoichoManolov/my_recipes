@@ -2,12 +2,13 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4">All Articles</h1>
-
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">All Articles</h1>
+    <div class="text-end mb-3">
     {% if request.user.is_superuser or request.user.is_staff %}
         <a href="{% url 'create-article' %}" class="btn btn-primary">Add New Article</a>
         {% endif %}
+    </div>
 
     <div class="row">
         {% for article in articles %}
@@ -19,9 +20,8 @@
                 <img src="{% static 'images/default_article.jpg' %}" class="card-img-top" alt="{{ article.title }}">
                 {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ article.title }}</h5>
-                    <p class="card-text">{{ article.description|truncatewords:20 }}</p>
-                    <a href="{% url 'article-detail' article.id %}" class="btn btn-primary">Read More</a>
+                    <h5 class="card-title"><a href="{% url 'article-detail' article.id %}" class="text-decoration-none">{{ article.title }}</a></h5>
+                    <p class="card-text">{{ article.description }}</p>
                 </div>
             </div>
         </div>
@@ -31,3 +31,4 @@
     </div>
 </div>
 {% endblock %}
+

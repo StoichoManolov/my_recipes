@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 text-center">
     <h2>Change Your Email</h2>
     <p>Update your email address below.</p>
 
@@ -19,18 +19,7 @@
     <!-- Form -->
     <form method="post">
         {% csrf_token %}
-        
-        <!-- Display form errors -->
-        {% if form.errors %}
-            <div class="alert alert-danger" role="alert">
-                <strong>Please fix the following errors:</strong>
-                <ul>
-                    {% for field, errors in form.errors.items %}
-                        <li><strong>{{ field|capfirst }}:</strong> {{ errors|join:", " }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+
 
         <!-- New email field -->
         <div class="mb-3">
@@ -68,5 +57,8 @@
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary">Update Email</button>
     </form>
+<footer class="article-footer mt-4">
+        <a href="{% url 'edit-account' user.id %}" class="btn btn-secondary">Back</a>
+    </footer>
 </div>
 {% endblock %}

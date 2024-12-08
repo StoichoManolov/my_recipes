@@ -6,19 +6,31 @@
             <div class="col-md-8 mx-auto">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title">Delete Article</h2>
+                        <h2 class="card-title text-center">Delete Article</h2>
 
-                        <p>Are you sure you want to delete the article: <strong>{{ article.title }}</strong>?</p>
-                        
-                        <form method="POST" style="display:inline;">
+                        <p class="text-center text-danger-emphasis">Are you sure you want to delete the article:
+                            <strong>{{ article.title }}</strong>?</p>
+
+                        <form id="delete-button" method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Yes, Delete Article</button>
-                        </form>
+                            <div class="d-flex justify-content-between mt-3">
+                                <button type="submit" class="btn btn-outline-danger"
+                                        style="width: 150px" >
+                                    Delete Article</button>
 
-                        <a href="{% url 'article-detail' article.id %}" class="btn btn-secondary">Cancel</a>
+                                <a href="{% url 'article-detail' article.id %}"
+                                   class="btn btn-outline-secondary" style="width: 150px">Cancel</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
+
+<div class="d-flex justify-content-between mt-3" >
+            <button type="submit" class="btn btn-outline-primary" style="width: 150px">Update </button>
+            <a href="{% url 'article-detail' articlecomment.article.id %}"
+               class="btn btn-outline-danger" style="width: 150px">Cancel</a>
+        </div>

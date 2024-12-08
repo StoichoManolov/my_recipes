@@ -1,7 +1,9 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.db.models import Avg
 
 from My_Recipes.accounts.models import RecipesUser
+from My_Recipes.validators import IsItAlpha
 
 
 class Article(models.Model):
@@ -14,6 +16,10 @@ class Article(models.Model):
 
     title = models.CharField(
         max_length=50,
+        validators=[
+            MinLengthValidator(5),
+            IsItAlpha('Title should be only letters!'),
+        ]
     )
 
     article_image = models.ImageField(
@@ -23,7 +29,11 @@ class Article(models.Model):
     )
 
     category = models.CharField(
-        max_length=50,
+        max_length=30,
+        validators=[
+            MinLengthValidator(5),
+            IsItAlpha('Category should be only letters!'),
+        ]
     )
 
     description = models.TextField(

@@ -1,23 +1,35 @@
+from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
 from django.db.models import Avg
 
 from My_Recipes.accounts.models import RecipesUser
+from My_Recipes.validators import IsItAlpha
 
 
 class Recipe(models.Model):
 
     title = models.CharField(
-        max_length=200,
+        max_length=100,
+        validators=[
+            MinLengthValidator(3),
+            IsItAlpha('Title should be only letters!'),
+        ],
     )
 
-    description = models.TextField()
+    description = models.TextField(
+        max_length=100,
+    )
 
     prep_time = models.PositiveIntegerField(
-        help_text="Preparation time in minutes",
+        help_text="Preparation time in minutes...",
+        validators=[MinValueValidator(1),
+                    ]
     )
 
     cook_time = models.PositiveIntegerField(
-        help_text="Cooking time in minutes",
+        help_text="Cooking time in minutes...",
+        validators=[
+            MinValueValidator(1),],
     )
 
     instructions = models.TextField()

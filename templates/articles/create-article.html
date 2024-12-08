@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Create an Article</h1>
+  <h1 class="text-center">Create an Article</h1>
 
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" id="create-form-recipe-article" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-
-    <button type="submit">Create an article</button>
+      
+  <div class="d-grid gap-2 mt-4">
+      <button type="submit" class="btn btn-success">Create an article</button>
+      <a href="{% url 'articles-list' %}" class="btn btn-secondary">Cancel</a>
+    </div>
   </form>
-    <a href="{% url 'articles-list' %}" class="btn btn-primary">Go Back</a>
 {% endblock %}

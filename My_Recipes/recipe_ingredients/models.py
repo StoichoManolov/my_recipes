@@ -1,7 +1,10 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 
 from My_Recipes.ingredients.models import Ingredients
+from My_Recipes.recipe_ingredients.validators import is_it_digit
 from My_Recipes.recipes.models import Recipe
+from My_Recipes.validators import IsItAlpha
 
 
 # Create your models here.
@@ -22,10 +25,15 @@ class RecipesIngredient(models.Model):
 
     quantity = models.CharField(
         max_length=50,
+        validators=[
+            MinLengthValidator(1),
+            is_it_digit,
+        ]
     )
 
     measurement = models.CharField(
         max_length=50,
+        validators=[IsItAlpha('Measurement value should be only letters!'),],
     )
 
     def __str__(self):

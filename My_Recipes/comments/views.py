@@ -25,12 +25,7 @@ class RecipeCommentCreateView(CreateView):
         form.instance.user = self.request.user
         form.save()
 
-        # After saving the comment, redirect to the recipe detail page (this will reload with the new comment)
         return redirect('recipe-detail', pk=recipe.id)
-
-    def form_invalid(self, form):
-        # If form is invalid, render the page with form errors
-        return self.render_to_response({'form': form, 'recipe': self.get_object()})
 
 
 class RecipeCommentDeleteView(View):
@@ -38,18 +33,16 @@ class RecipeCommentDeleteView(View):
         comment = get_object_or_404(RecipeComment, pk=pk)
 
         # Check if the user is the owner of the comment or has permission to delete (superuser/admin)
-        if comment.user == request.user or request.user.is_superuser:
+        if comment.user == request.user or request.user.is_superuser or request.user.is_staff:
             recipe_id = comment.recipe.pk  # Get the associated recipe ID
             comment.delete()
             return redirect('recipe-detail', pk=recipe_id)  # Redirect to the recipe's detail page
-
-        return HttpResponseForbidden('You do not have permission to delete this comment.')
 
 
 class RecipeCommentUpdateView(CheckForRestrictionRecipes, UpdateView):
     model = RecipeComment
     form_class = CommentForm
-    template_name = 'comments/update-comment.html'
+    template_name = 'comments/update-comment-recipe.html'
 
     def form_valid(self, form):
         comment = self.get_object()  # Get the current comment instance
@@ -57,13 +50,9 @@ class RecipeCommentUpdateView(CheckForRestrictionRecipes, UpdateView):
         # Ensure the current user is the owner of the comment or a superuser
         if comment.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff:
             form.save()  # Save the updated comment
-            return redirect('recipe-detail', pk=comment.recipe.pk)  # Redirect to the recipe detail page
-        else:
-            return redirect('recipe-detail', pk=comment.recipe.pk)  # Redirect if unauthorized
+            return redirect('recipe-detail', pk=comment.recipe.pk)
 
-    def form_invalid(self, form):
-        # Handle invalid form submission
-        return super().form_invalid(form)
+        return redirect('recipe-detail', pk=comment.recipe.pk)
 
 
 class ArticleCreateView(CreateView):
@@ -76,32 +65,25 @@ class ArticleCreateView(CreateView):
         form.instance.article = article
         form.instance.user = self.request.user
 
-        # Save the form and redirect to the article detail view
         form.save()
         return redirect('article-detail', pk=article.id)
 
-    def form_invalid(self, form):
-        # If form is invalid, render the page with form errors
-        return self.render_to_response({'form': form, 'article': self.get_object()})
-
 
 class ArticleDeleteView(View):
+
     def post(self, request, pk):
         comment = get_object_or_404(ArticleComment, pk=pk)
 
-        # Check if the user is the owner of the comment or has permission to delete (superuser/admin)
-        if comment.user == request.user or request.user.is_superuser:
-            article_id = comment.article.pk  # Get the associated recipe ID
+        if comment.user == request.user or request.user.is_superuser or request.user.is_staff:
+            article_id = comment.article.pk
             comment.delete()
             return redirect('article-detail', pk=article_id)  # Redirect to the recipe's detail page
-
-        return HttpResponseForbidden('You do not have permission to delete this comment.')
 
 
 class ArticleUpdateView(CheckForRestrictionRecipes, UpdateView):
     model = ArticleComment
     form_class = ArticleCommentForm
-    template_name = 'comments/update-comment.html'
+    template_name = 'comments/update-comment-article.html'
 
     def form_valid(self, form):
         comment = self.get_object()  # Get the current comment instance
@@ -110,9 +92,5 @@ class ArticleUpdateView(CheckForRestrictionRecipes, UpdateView):
         if comment.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff:
             form.save()  # Save the updated comment
             return redirect('article-detail', pk=comment.article.pk)  # Redirect to the recipe detail page
-        else:
-            return redirect('article-detail', pk=comment.article.pk)  # Redirect if unauthorized
 
-    def form_invalid(self, form):
-        # Handle invalid form submission
-        return super().form_invalid(form)
+        return redirect('article-detail', pk=comment.article.pk)  # Redirect if unauthorized

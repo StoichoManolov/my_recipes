@@ -15,7 +15,7 @@ class CheckForRegisteredUser:
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated and not request.user.is_superuser:
-            return redirect('home', pk=request.user.pk)
+            return redirect('home')
 
         data = super().dispatch(request, *args, **kwargs)
         return data

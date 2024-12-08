@@ -6,7 +6,7 @@
         <div class="col-md-8 mx-auto">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title">Edit Profile</h1>
+                    <h1 class="card-title text-center">Edit Profile</h1>
                     
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -18,10 +18,14 @@
                     </form>
 
                     <!-- Change Password Button -->
-                    <div class="mt-4">
-                        <a href="{% url 'password-change' request.user.pk %}" class="btn btn-outline-secondary">Change Password</a>
-                        <a href="{% url 'email-change' request.user.pk %}" class="btn btn-outline-secondary">Change Email Address</a>
+                    
+                    <div class="mt-4 text-center">
+                        {% if request.user.pk == user_id %}
+                        <a href="{% url 'password-change' request.user.pk %}" class="btn btn-outline-primary">Change Password</a>
+                        <a href="{% url 'email-change' request.user.pk %}" class="btn btn-outline-primary">Change Email Address</a>
+                            {% endif %}
                     </div>
+                    <a href="{% url 'detail-account' request.user.pk %}" class="btn btn-outline-secondary">Back</a>
                 </div>
             </div>
         </div>

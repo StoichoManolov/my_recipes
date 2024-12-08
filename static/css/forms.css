@@ -49,3 +49,7 @@ form {
 #stars-button{
   box-shadow: none !important;
 }
+
+.disabled-textarea {
+    resize: none;
+}

@@ -24,7 +24,7 @@ class RecipesIngredient(models.Model):
     )
 
     quantity = models.CharField(
-        max_length=50,
+        max_length=6,
         validators=[
             MinLengthValidator(1),
             is_it_digit,
@@ -32,7 +32,7 @@ class RecipesIngredient(models.Model):
     )
 
     measurement = models.CharField(
-        max_length=50,
+        max_length=20,
         validators=[IsItAlpha('Measurement value should be only letters!'),],
     )
 

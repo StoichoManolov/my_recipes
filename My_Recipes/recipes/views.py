@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -33,14 +35,21 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
             if not name and not quantity and not measurement:
                 form.add_error(None, f'Make sure to fill Ingredients, Quantity, and Measurement!')
                 return self.form_invalid(form)
-            elif not name:
-                form.add_error(None, f'Make sure to fill ingredients!')
+            elif not name or len(name.strip()) <= 2 or not re.match(r'^[A-Za-z\s]+$', name.strip()) or len(name) > 15:
+                form.add_error(None, "Make sure Ingredient name has:")
+                form.add_error(None, "At least 3 characters!")
+                form.add_error(None, 'No more than 15 characters!')
+                form.add_error(None, "Only letters, no special characters or numbers!")
                 return self.form_invalid(form)
-            elif not quantity:
-                form.add_error(None, f'Make sure to fill the quantity of the ingredient!')
+            elif not quantity or not quantity.isdigit() or len(quantity) > 6:
+                form.add_error(None, "Make sure Ingredient quantity has:")
+                form.add_error(None, 'No more than 6 digits!')
+                form.add_error(None, "Only digits!")
                 return self.form_invalid(form)
-            elif not measurement:
-                form.add_error(None, f'Make sure to fill the measurement!')
+            elif not measurement or len(measurement) > 20 or not re.match(r'^[A-Za-z\s\'\-]+$', measurement.strip()):
+                form.add_error(None, "Make sure Ingredient measurement has:")
+                form.add_error(None, 'No more than 20 characters!')
+                form.add_error(None, "Only letters!")
                 return self.form_invalid(form)
 
         # Save the recipe first (without committing to the database yet)

@@ -8,7 +8,7 @@ from My_Recipes.validators import IsItAlpha
 
 class Ingredients(models.Model):
     name = models.CharField(
-        max_length=30,
+        max_length=15,
         validators=[
             MinLengthValidator(3),
             IsItAlpha('Ingredient name should be only letters!'),

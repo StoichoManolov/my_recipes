@@ -1,16 +1,21 @@
 from django import forms
+from django.core.validators import MinLengthValidator
 
 from My_Recipes.ingredients.models import Ingredients
 from My_Recipes.recipe_ingredients.models import RecipesIngredient
+from My_Recipes.validators import IsItAlpha
 
 
 class RecipesIngredientForm(forms.ModelForm):
 
-    ingredient_name = forms.CharField(max_length=255, label='Ingredient', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    ingredient_name = forms.CharField(
+        label='Ingredient',
+        widget=forms.TextInput(attrs={'class': 'form-control'},
+        ))
 
     class Meta:
         model = RecipesIngredient
-        fields = ['ingredient_name', 'quantity', 'measurement']
+        fields = ['ingredient', 'quantity', 'measurement']
         widgets = {
             'quantity': forms.TextInput(attrs={'class': 'form-control'}),
             'measurement': forms.TextInput(attrs={'class': 'form-control'}),

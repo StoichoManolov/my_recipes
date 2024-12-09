@@ -9,7 +9,7 @@ from My_Recipes.recipes.models import Recipe
 
 class CommentBase(models.Model):
     user = models.ForeignKey(RecipesUser, on_delete=models.CASCADE)
-    content = models.TextField(max_length=300)
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

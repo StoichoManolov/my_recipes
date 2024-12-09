@@ -70,7 +70,6 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
                 measurement=measurement
             )
 
-        # If validation passes, redirect to the success URL
         return redirect(self.success_url)
 
 

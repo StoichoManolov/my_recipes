@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.http import Http404
 
 
@@ -85,6 +86,7 @@ class DeleteIngredientView(CheckForRestrictionIngredients, DeleteView):
     def get_success_url(self):
         recipe_id = self.kwargs['recipe_id']
         return reverse_lazy('manage-ingredients', kwargs={'recipe_id': recipe_id})
+
 
 class EditIngredientView(CheckForRestrictionIngredients, UpdateView):
     model = RecipesIngredient

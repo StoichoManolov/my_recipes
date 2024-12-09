@@ -30,9 +30,22 @@
                 {{ form.non_field_errors.0 }}
             </div>
         {% endif %}
-
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-         <a href="{% url 'create-account' %}" class="btn btn-outline-primary">Create an account</a>
+        <button type="submit" class="btn btn-outline-primary w-100" style="margin-right: 10px; width: 150px"
+        >Login</button>
+    <div style="text-align: center; margin-bottom:0px; margin-top:5px">
+         <a class="text-center" href="{% url 'create-account' %}" style="width: 150px"
+         >  If you don't have a profile. Register here!</a>
+        </div>
     </form>
 </div>
 {% endblock %}
+
+<div class="d-flex justify-content-between mt-3">
+    <button type="submit" class="btn btn-outline-danger"
+            style="margin-right: 10px; width: 150px">
+        Delete Account
+    </button>
+    <a href="{% url 'detail-account' user.pk %}" class="btn btn-outline-secondary"
+       style="width: 150px">
+        Cancel</a>
+</div>

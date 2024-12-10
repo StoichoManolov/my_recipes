@@ -33,7 +33,7 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         article = self.object
-        avg_rating = article.get_average_rating() if article.get_average_rating() is not None else  'Not rated yet!'
+        avg_rating = article.get_average_rating() if article.get_average_rating() is not None else 0
         reviews_count = article.reviews_count()
 
         if self.request.user.is_authenticated:

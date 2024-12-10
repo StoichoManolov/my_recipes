@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, LoginView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
 
@@ -80,3 +80,6 @@ class EmailChangeView(LoginRequiredMixin, CheckForRestriction, FormView):
         return reverse_lazy('detail-account', kwargs={'pk': self.request.user.pk})
 
 
+class CustomLoginView(CheckForRegisteredUser, LoginView):
+
+    template_name = 'registration/login.html'

@@ -80,7 +80,7 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         recipe = self.object
-        avg_rating = recipe.get_average_rating() if recipe.get_average_rating() is not None else 'Not rated yet!'
+        avg_rating = recipe.get_average_rating()
         reviews_count = recipe.reviews_count()
 
         if self.request.user.is_authenticated:

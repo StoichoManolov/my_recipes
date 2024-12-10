@@ -14,7 +14,7 @@ class CheckForRestriction:
 class CheckForRegisteredUser:
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and not request.user.is_superuser:
+        if request.user.is_authenticated:
             return redirect('home')
 
         data = super().dispatch(request, *args, **kwargs)

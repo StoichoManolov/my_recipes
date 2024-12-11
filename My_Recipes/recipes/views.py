@@ -44,7 +44,7 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
                 form.add_error(None, "Only letters, no special characters or numbers!")
                 return self.form_invalid(form)
 
-            elif not quantity or not quantity.isdigit() or len(quantity) > 6:
+            elif not quantity or not re.match(r'^\d+(/\d+)?(-\d+(/\d+)?)?$', quantity) or len(quantity) > 6:
                 form.add_error(None, "Make sure Ingredient quantity has:")
                 form.add_error(None, 'No more than 6 digits!')
                 form.add_error(None, "Only digits!")

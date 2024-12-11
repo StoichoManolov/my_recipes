@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -28,7 +30,7 @@ class RecipesIngredientForm(forms.ModelForm):
     def clean_quantity(self):
         quantity = self.cleaned_data['quantity']
         # Check that quantity contains only numbers
-        if not quantity.isdigit():
+        if not re.match(r'^\d+(/\d+)?(-\d+(/\d+)?)?$', quantity):
             raise ValidationError('Quantity must be a number.')
         return quantity
 

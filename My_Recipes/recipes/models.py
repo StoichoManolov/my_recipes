@@ -1,4 +1,4 @@
-from django.core.validators import MinLengthValidator, MinValueValidator
+from django.core.validators import MinLengthValidator, MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Avg
 
@@ -22,14 +22,18 @@ class Recipe(models.Model):
 
     prep_time = models.PositiveIntegerField(
         help_text="Preparation time in minutes...",
-        validators=[MinValueValidator(1),
-                    ]
+        validators=[
+            MinValueValidator(1, message="Preparation time must be at least 1 minute."),
+            MaxValueValidator(999999, message="Maximum 6 digits allowed for preparation time."),
+        ]
     )
 
     cook_time = models.PositiveIntegerField(
         help_text="Cooking time in minutes...",
         validators=[
-            MinValueValidator(1),],
+            MinValueValidator(1, message="Cooking time must be at least 1 minute."),
+            MaxValueValidator(999999, message="Maximum 6 digits allowed for cooking time."),
+        ]
     )
 
     instructions = models.TextField()

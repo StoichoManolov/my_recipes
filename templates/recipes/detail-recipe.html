@@ -77,7 +77,7 @@
                         <ul>
                             {% for ingredient in recipe.recipe_ingredients.all %}
                                 <li>{{ ingredient.quantity }} {{ ingredient.measurement }}
-                                    of {{ ingredient.ingredient.name }}</li>
+                                    {{ ingredient.ingredient.name }}</li>
                             {% empty %}
                                 <li>No ingredients available.</li>
                             {% endfor %}

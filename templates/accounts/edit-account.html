@@ -25,7 +25,7 @@
                         <a href="{% url 'email-change' request.user.pk %}" class="btn btn-outline-primary">Change Email Address</a>
                             {% endif %}
                     </div>
-                    <a href="{% url 'detail-account' request.user.pk %}" class="btn btn-outline-secondary">Back</a>
+                    <a href="{% url 'detail-account' user_id %}" class="btn btn-outline-secondary">Back</a>
                 </div>
             </div>
         </div>

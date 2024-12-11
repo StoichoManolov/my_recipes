@@ -9,7 +9,11 @@ from My_Recipes.recipe_ingredients.models import RecipesIngredient
 
 class RecipesIngredientForm(forms.ModelForm):
 
-    ingredient_name = forms.CharField(max_length=15, label='Ingredient', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    ingredient_name = (forms.CharField
+                       (max_length=15,
+                        label='Ingredient',
+                        widget=forms.TextInput(attrs={'class': 'form-control'}
+                                               )))
 
     class Meta:
         model = RecipesIngredient

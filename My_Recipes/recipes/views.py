@@ -32,20 +32,24 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
 
         for idx, (name, quantity, measurement) in enumerate(
                 zip(ingredient_names, ingredient_quantities, ingredient_measurements)):
+
             if not name and not quantity and not measurement:
                 form.add_error(None, f'Make sure to fill Ingredients, Quantity, and Measurement!')
                 return self.form_invalid(form)
+
             elif not name or len(name.strip()) <= 2 or not re.match(r'^[A-Za-z\s]+$', name.strip()) or len(name) > 15:
                 form.add_error(None, "Make sure Ingredient name has:")
                 form.add_error(None, "At least 3 characters!")
                 form.add_error(None, 'No more than 15 characters!')
                 form.add_error(None, "Only letters, no special characters or numbers!")
                 return self.form_invalid(form)
+
             elif not quantity or not quantity.isdigit() or len(quantity) > 6:
                 form.add_error(None, "Make sure Ingredient quantity has:")
                 form.add_error(None, 'No more than 6 digits!')
                 form.add_error(None, "Only digits!")
                 return self.form_invalid(form)
+
             elif not measurement or len(measurement) > 20 or not re.match(r'^[A-Za-z\s\'\-]+$', measurement.strip()):
                 form.add_error(None, "Make sure Ingredient measurement has:")
                 form.add_error(None, 'No more than 20 characters!')
@@ -78,7 +82,9 @@ class RecipeDetailView(DetailView):
     model = Recipe
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
+
         recipe = self.object
         avg_rating = recipe.get_average_rating()
         reviews_count = recipe.reviews_count()

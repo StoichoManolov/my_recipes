@@ -27,11 +27,10 @@ class ArticleDetailView(DetailView):
     template_name = 'articles/detail-article.html'
     model = Article
 
-    def get_user(self):
-        return get_object_or_404(RecipesUser, pk=self.kwargs['id'])
-
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
+
         article = self.object
         avg_rating = article.get_average_rating()
         reviews_count = article.reviews_count()
@@ -40,6 +39,7 @@ class ArticleDetailView(DetailView):
             user = ArticleReview.objects.filter(article=article, user=self.request.user).first()
 
             context['user_review'] = user
+
         context['article'] = article
         context['avg_rating'] = avg_rating
         context['reviews_count'] = reviews_count

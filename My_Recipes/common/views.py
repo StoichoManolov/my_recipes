@@ -15,7 +15,9 @@ class Homepage(TemplateView):
     template_name = 'common/front_page.html'
 
     def get_context_data(self, **kwargs):
+
         data = super().get_context_data(**kwargs)
+
         data['recipes'] = Recipe.objects.all().count()
         data['articles'] = Article.objects.all().count()
         data['registered_users'] = UserModel.objects.all().count()

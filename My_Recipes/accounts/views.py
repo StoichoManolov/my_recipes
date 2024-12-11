@@ -24,6 +24,7 @@ class DetailAccountView(DetailView):
 
 
 class EditAccountView(LoginRequiredMixin, CheckForRestriction, UpdateView):
+
     model = Profile
     form_class = AccountsBaseForm
     template_name = 'accounts/edit-account.html'
@@ -41,7 +42,7 @@ class EditAccountView(LoginRequiredMixin, CheckForRestriction, UpdateView):
         return context
 
 
-class DeleteAccountView(LoginRequiredMixin, CheckForRestriction,  DeleteView):
+class DeleteAccountView(LoginRequiredMixin, CheckForRestriction, DeleteView):
 
     model = RecipesUser
     success_url = reverse_lazy('home')
@@ -49,7 +50,6 @@ class DeleteAccountView(LoginRequiredMixin, CheckForRestriction,  DeleteView):
 
 
 class PasswordChange(CheckForRestriction, PasswordChangeView):
-
     model = RecipesUser
 
     def get_success_url(self):
@@ -61,19 +61,25 @@ class PasswordChange(CheckForRestriction, PasswordChangeView):
 
 
 class EmailChangeView(LoginRequiredMixin, CheckForRestriction, FormView):
+
     template_name = "registration/email_change_form.html"
     form_class = EmailChangeForm
 
     def form_valid(self, form):
         new_email = form.cleaned_data['email']
+
         self.request.user.email = new_email
         self.request.user.save()
+
         messages.success(self.request, "Your email has been updated successfully!")
+
         return super().form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+
         kwargs['user'] = self.request.user  # Pass the logged-in user to the form
+
         return kwargs
 
     def get_success_url(self):

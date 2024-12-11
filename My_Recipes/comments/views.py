@@ -12,11 +12,13 @@ from ..recipes.models import Recipe
 
 
 class RecipeCommentCreateView(CreateView):
+
     model = RecipeComment
     form_class = CommentForm
     template_name = 'recipes/detail-recipe.html'
 
     def form_valid(self, form):
+
         recipe_id = self.kwargs['recipe_id']
         recipe = get_object_or_404(Recipe, id=recipe_id)
 
@@ -29,6 +31,7 @@ class RecipeCommentCreateView(CreateView):
 
 
 class RecipeCommentDeleteView(View):
+
     def post(self, request, pk):
         comment = get_object_or_404(RecipeComment, pk=pk)
 
@@ -40,6 +43,7 @@ class RecipeCommentDeleteView(View):
 
 
 class RecipeCommentUpdateView(CheckForRestrictionRecipes, UpdateView):
+
     model = RecipeComment
     form_class = CommentForm
     template_name = 'comments/update-comment-recipe.html'
@@ -56,6 +60,7 @@ class RecipeCommentUpdateView(CheckForRestrictionRecipes, UpdateView):
 
 
 class ArticleCreateView(CreateView):
+
     model = ArticleComment
     form_class = ArticleCommentForm
     template_name = 'articles/detail-article.html'
@@ -81,6 +86,7 @@ class ArticleDeleteView(View):
 
 
 class ArticleUpdateView(CheckForRestrictionRecipes, UpdateView):
+
     model = ArticleComment
     form_class = ArticleCommentForm
     template_name = 'comments/update-comment-article.html'

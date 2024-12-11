@@ -13,6 +13,7 @@ class AccountsBaseForm(forms.ModelForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+
     email = forms.EmailField(required=True)
 
     class Meta:
@@ -21,17 +22,21 @@ class CustomUserCreationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'  # Adding bootstrap class for styling
 
 
 class EmailChangeForm(forms.Form):
+
     email = forms.EmailField(label="New Email", max_length=254)
     confirm_email = forms.EmailField(label="Confirm New Email", max_length=254)
     password = forms.CharField(widget=forms.PasswordInput, label="Current Password")
 
     def clean(self):
+
         cleaned_data = super().clean()
+
         email = cleaned_data.get("email")
         confirm_email = cleaned_data.get("confirm_email")
 
@@ -47,9 +52,12 @@ class EmailChangeForm(forms.Form):
         return cleaned_data
 
     def clean_password(self):
+
         password = self.cleaned_data.get("password")
+
         if not self.user.check_password(password):
             raise forms.ValidationError("The current password is incorrect.")
+
         return password
 
     def __init__(self, *args, **kwargs):
@@ -67,8 +75,11 @@ class UserCreationForm(forms.ModelForm):
         fields = ('username', 'email', 'password')
 
     def save(self, commit=True):
+
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])  # Hash the password
+
         if commit:
             user.save()
+
         return user

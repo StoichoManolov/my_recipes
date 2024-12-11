@@ -8,6 +8,7 @@ from My_Recipes.reviews.models import RecipeReview, ArticleReview
 
 
 class SubmitRecipeReviewView(FormView):
+
     template_name = 'recipes/detail-recipe.html'
     form_class = RecipeReviewForm
 
@@ -26,6 +27,7 @@ class SubmitRecipeReviewView(FormView):
 
 
 class SubmitArticleReviewView(FormView):
+
     template_name = 'articles/detail-article.html'
     form_class = ArticleReviewForm
 
